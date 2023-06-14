@@ -1,0 +1,839 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Flags &#8212; Instacart Data Analysis in Jupyterbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'flags';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Loyalty" href="f-loyalty-flag.html" />
+    <link rel="prev" title="Instacart Data" href="df-instacart-data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Insights</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="da-customers.html">Customers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="da-marketing-sales.html">Marketing &amp; Sales</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Database</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-dictionary.html">Data Dictionary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Wrangling</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="data-frames.html">Data Frames</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="df-products.html">Products EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-orders.html">Orders EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-departments.html">Departments EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-products-prior.html">Products Prior EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-orderds-products-combined.html">01 Orders + Products Prior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-orders-products-merged.html">2. Orders Products Merged</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-customers.html">Customers EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-instacart-data.html">Instacart Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Flags</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="f-loyalty-flag.html">Loyalty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-max-order.html">Max Order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-new-customer.html">New Customer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-price-ranges.html">Price ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-spending-type.html">Spending Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-user-activity-days.html">User activity by days</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-user-activity-hours.html">User activity by hours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-prices-outliers.html">‘prices’ outliers fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-region.html">Region</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Viz</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="data-viz.html">Data visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="links.html">Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fflags.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/flags.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Flags</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-programming-for-da">4.1.: Intro to Programming for DA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-fundamentals-python-data-types">4.2: Jupyter Fundamentals &amp; Python Data Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-pandas">4.3: Intro to Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-wrangling-subsetting">4.4: Data Wrangling &amp; Subsetting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-consistency-checks">4.5: Data Consistency Checks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-exporting-data">4.6: Combining &amp; Exporting Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-new-variables-flags">4.7: Deriving New Variables (FLAGS)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="flags">
+<h1>Flags<a class="headerlink" href="#flags" title="Permalink to this heading">#</a></h1>
+<section id="intro-to-programming-for-da">
+<h2>4.1.: Intro to Programming for DA<a class="headerlink" href="#intro-to-programming-for-da" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>R vs Python</p></li>
+<li><p>Setting up environment</p>
+<ul>
+<li><p>Terminal</p></li>
+<li><p>Anaconda</p></li>
+<li><p>Launching Jupyter</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="jupyter-fundamentals-python-data-types">
+<h2>4.2: Jupyter Fundamentals &amp; Python Data Types<a class="headerlink" href="#jupyter-fundamentals-python-data-types" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Organizing a Project Folder</p></li>
+<li><p>Jupyter</p>
+<ul>
+<li><p>Creating Notebooks in Jupyter</p></li>
+<li><p>Creating Cells</p></li>
+<li><p>Deleting Cells</p></li>
+<li><p>Creating Markdown Fields</p></li>
+<li><p>Naming Your Notebook</p></li>
+<li><p>Closing Notebooks</p></li>
+</ul>
+</li>
+<li><p>Python Libraries</p></li>
+<li><p>Data types</p>
+<ul>
+<li><p>Integer: Numeric data without a decimal point (1, 2, 3, etc.)</p></li>
+<li><p>Floating-Point Number: Numeric data with a decimal point (1.34, 4.567, 10.4, etc.)</p></li>
+<li><p>String: Any textual data</p></li>
+<li><p>Boolean: Data used to denote the truthfulness of a condition or statement. It takes two values: True and False</p></li>
+</ul>
+</li>
+<li><p>Procedures with Data Types</p></li>
+</ul>
+</section>
+<section id="intro-to-pandas">
+<h2>4.3: Intro to Pandas<a class="headerlink" href="#intro-to-pandas" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Pandas Fundamentals</p>
+<ul>
+<li><p>Python Data Structures: Dataframes</p></li>
+</ul>
+</li>
+<li><p>Importing a Data Set in Jupyter <strong>orders.csv</strong> and <strong>products.csv</strong>
+<code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">pd.read_csv(r'folderpath\name.csv',</span> <span class="pre">index_col</span> <span class="pre">=</span> <span class="pre">False,</span>&#160; <span class="pre">nrows=1000)</span></code></p></li>
+<li><p>Python Shortcut for Importing Data Files
+<code class="docutils literal notranslate"><span class="pre">path</span> <span class="pre">=</span> <span class="pre">r'folderpath/</span></code></p></li>
+<li><p>Exploring Data with Pandas</p>
+<ul>
+<li><p>print()</p></li>
+<li><p>df.head()</p></li>
+<li><p>df.tail()</p></li>
+<li><p>info()</p></li>
+<li><p>df.dtypes</p></li>
+<li><p>describe()</p></li>
+<li><p>df.columns</p></li>
+</ul>
+</li>
+<li><p>Python Data Structures: Lists
+Once you’ve identified your unnecessary columns, you can import your data set as a list, leaving off those unnecessary columns. Take a look at the following code that lists all the columns in the “orders.csv” data set except for “eval_set”:</p></li>
+</ul>
+<p>vars_list = [‘order_id’, ‘user_id’, ‘order_number’, ‘order_dow’, ‘order_hour_of_day’, ‘days_since_prior_order’]</p>
+<p>You now have a list, vars_list, of all the columns you want to import. All that’s left to do is import your data set again, only this time, with an additional argument telling Python to only import the columns in your list. This can be done via the usecols argument. Take a look at the full command below:</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">pd.read_csv(os.path.join(path,</span> <span class="pre">'02</span> <span class="pre">Data',</span> <span class="pre">'Original</span> <span class="pre">Data',</span> <span class="pre">'orders.csv'),</span> <span class="pre">usecols</span> <span class="pre">=</span> <span class="pre">vars_list)</span></code></p>
+</section>
+<section id="data-wrangling-subsetting">
+<h2>4.4: Data Wrangling &amp; Subsetting<a class="headerlink" href="#data-wrangling-subsetting" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Data Wrangling Procedures</p>
+<ul>
+<li><p>Dropping columns: <code class="docutils literal notranslate"><span class="pre">df.drop(columns</span> <span class="pre">=</span> <span class="pre">['variable'])</span></code></p></li>
+<li><p>df[‘variable’].value_counts(dropna = False)</p></li>
+<li><p>value_counts()</p></li>
+<li><p>Renaming col: df.rename(), df.rename(columns = {‘old_name’ : ‘new_name’}, inplace = True)</p></li>
+<li><p>Changing dtypes: df_ords[‘order_id’] = df_ords[‘order_id’].astype(‘str’)</p></li>
+<li><p>Transposing data: df_dep.T, reset_index()</p></li>
+<li><p>iloc[] (“locate an integer” = iloc.)</p></li>
+<li><p>df_dep_t_new = df_dep_t[1:] - from the first row onward</p></li>
+</ul>
+</li>
+<li><p>Data Dictionaries</p>
+<ul>
+<li><p>to_dict(), print(data_dict.get(‘19’))</p></li>
+</ul>
+</li>
+<li><p>Subsetting</p>
+<ul>
+<li><p>df_snacks =  df_prods[df_prods[‘department_id’]==19]</p></li>
+<li><p>df_snacks_2 = df_prods.loc[df_prods[‘department_id’] == 19]</p></li>
+<li><p>df_snacks_3 = df_prods.loc[df_prods[‘department_id’].isin([19])]</p></li>
+</ul>
+</li>
+<li><p>Exporting Dataframes (orders_wrangeled.csv)</p></li>
+</ul>
+</section>
+<section id="data-consistency-checks">
+<h2>4.5: Data Consistency Checks<a class="headerlink" href="#data-consistency-checks" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>What are Data Consistency Checks?</p></li>
+<li><p>Mixed-Type Data
+<code class="docutils literal notranslate"><span class="pre">df_test</span> <span class="pre">=</span> <span class="pre">pd.DataFrame()</span></code>
+<code class="docutils literal notranslate"><span class="pre">df_test['mix']</span> <span class="pre">=</span> <span class="pre">['a',</span> <span class="pre">'b',</span> <span class="pre">1,</span> <span class="pre">True]</span></code>
+“for col in df_test.columns.tolist():
+weird = (df_test[[col]].applymap(type) != df_test[[col]].iloc[0].apply(type)).any(axis = 1)
+if len (df_test[weird]) &gt; 0:
+print (col)”df_test[‘mix’] = df_test[‘mix’].astype(‘str’)</p>
+<ul>
+<li><p>Missing values</p></li>
+<li><p>df_prods.isnull().sum()</p></li>
+<li><p>df_nan = df.prods[df_prods[‘product_name’].isnull() == True]</p></li>
+</ul>
+</li>
+<li><p>Addressing Missing Values</p>
+<ul>
+<li><p>Create a new variable that acts like a flag based on the missing value.</p></li>
+<li><ul>
+<li><p>df[‘column with missings’].fillna(median value, inplace=True)</p></li>
+</ul>
+</li>
+<li><p>Impute the value with the mean or median of the column (if the variable is numeric).</p></li>
+<li><p>Remove or filter out the missing data.</p></li>
+<li><p>df_prods.dropna(subset = [‘product_name’], inplace = True)</p></li>
+<li><p>df_prods.dropna(inplace = True)</p></li>
+</ul>
+</li>
+<li><p>Duplicates</p>
+<ul>
+<li><p>Finding duplicates</p></li>
+<li><p>df_dups = df_prods_clean[df_prods_clean.duplicated()]</p></li>
+<li><p>Addressing Duplicates</p></li>
+<li><p>df_prods_clean_no_dups = df_prods_clean.drop_duplicates()</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="combining-exporting-data">
+<h2>4.6: Combining &amp; Exporting Data<a class="headerlink" href="#combining-exporting-data" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Methods for Combining Data</p>
+<ul>
+<li><p>Concatenating Data pd.concat(), df_concat = pd.concat(frames, axis = 1)</p></li>
+<li><p>Joining Data df.join()</p></li>
+<li><p>Merging Data df.merge(),  df.merge(df_2, on = ‘customer_id’)</p></li>
+</ul>
+</li>
+<li><p>Merging Your Instacart Data: df_merged_large = df_ords.merge(df_ords_prior, on = ‘order_id’, indicator = True)</p></li>
+<li><p>Exporting Data in Pickle Format</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Export data to csv</span>
+
+<span class="n">df_merged_large</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;02 Data&#39;</span><span class="p">,</span><span class="s1">&#39;Prepared Data&#39;</span><span class="p">,</span> <span class="s1">&#39;orders_products_combined.csv&#39;</span><span class="p">))</span>
+
+<span class="c1"># Export data to pkl</span>
+
+<span class="n">df_merged_large</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;02 Data&#39;</span><span class="p">,</span><span class="s1">&#39;Prepared Data&#39;</span><span class="p">,</span> <span class="s1">&#39;orders_products_combined.pkl&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="deriving-new-variables-flags">
+<h2>4.7: Deriving New Variables (FLAGS)<a class="headerlink" href="#deriving-new-variables-flags" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Deriving Variables</p></li>
+<li><p>If-Statements</p></li>
+<li><p>If-Statements with User-Defined Functions</p></li>
+<li><p>flag</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">price_label</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+
+  <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;Low-range product&#39;</span>
+  <span class="k">elif</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;Mid-range product&#39;</span>
+  <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;High range&#39;</span>
+  <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;Not enough data&#39;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>df.apply(price_label, axis=1).</p></li>
+<li><p>value_counts()</p></li>
+<li><p>max()</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;price_range_loc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;High-range product&#39;</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;price_range_loc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Mid-range product&#39;</span> 
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;price_range_loc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Low-range product&#39;</span>
+
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>If-Statements with For-Loops</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>result = []
+
+for value in ords_prods_merge[&quot;orders_day_of_week&quot;]:
+  if value == 0:
+    result.append(&quot;Busiest day&quot;)
+  elif value == 4:
+    result.append(&quot;Least busy&quot;)
+  else:
+    result.append(&quot;Regularly busy&quot;)```
+
+## 4.8: Grouping Data &amp; Aggregating Variables
+4.8: Grouping Data &amp; Aggregating Variables
+
+
+- Grouping Data : `df.groupby(&#39;product_name&#39;)`
+- Grouping Data with pandas    
+- Aggregating Data with `agg()`
+</pre></div>
+</div>
+<p>df.groupby(‘department_id’).agg({‘order_number’: [‘mean’]})</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- Performing multioply aggregation 
+`df.groupby(&#39;department_id&#39;).agg({&#39;order_number&#39;: [&#39;mean&#39;, &#39;min&#39;, &#39;max&#39;]})`
+- Aggregating Data with transform()
+</pre></div>
+</div>
+<p>ords_prods_merge[‘max_order’] = ords_prods_merge.groupb
+pd.options.display.max_rows = None</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="o">-</span> <span class="n">Deriving</span> <span class="n">Columns</span> <span class="k">with</span> <span class="n">loc</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<p>ords_prods_merge.loc[ords_prods_merge[‘max_order’] &gt; 40, ‘loyalty_flag’] = ‘Loyal customer’
+ords_prods_merge.loc[(ords_prods_merge[‘max_order’] &lt;= 40) &amp; (ords_prods_merge[‘max_order’] &gt; 10), ‘loyalty_flag’] = ‘Regular customer’
+ords_prods_merge.loc[ords_prods_merge[‘max_order’] &lt;= 10, ‘loyalty_flag’] = ‘New customer’</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- Task  
+    - Non-frequent customer/Regular customer/Frequent customer
+
+
+## 4.9: Intro to Data Visualization with Python
+- Types of Charts
+- Installing and Importing Visualization Libraries - seaborn, matplotlib, scipy
+`conda install seaborn matplotlib scipy`
+- Creating Bar Charts
+`ords_prods_merge[&#39;orders_day_of_week&#39;].value_counts().sort_index().plot.bar(color=&quot;blue&quot;)`
+- Exporting Charts
+`bar.figure.savefig(os.path.join(path, &#39;04 Analysis&#39;,&#39;Visualizations&#39;, &#39;bar_orders_dow.png&#39;))`
+- Creating Histograms and Scatterplots (PRICE column issue solution)
+`ords_prods_merge[&#39;prices&#39;].plot.hist(bins = 25)`
+`sns.scatterplot(x = &#39;prices&#39;, y = &#39;prices&#39;,data = ords_prods_merge)`
+- Creating Line Charts
+- Creating Line Charts
+`np.random.seed(4)
+dev = np.random.rand(len(ords_prods_merge)) &lt;= 0.7`
+</pre></div>
+</div>
+<p>big = ords_prods_merge[dev]
+small = ords_prods_merge[~dev]
+df_2 = small[[‘orders_day_of_week’,’prices’]]</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`line = sns.lineplot(data = df_2, x = &#39;orders_day_of_week&#39;,y = &#39;prices&#39;)`
+
+- **TASK CUSTOMERS FRAME** 
+- histogram of the “order_hour_of_day” 
+- a bar chart from the “loyalty_flag” column.
+- Check whether there’s a difference in expenditure (the “prices” column) depending on the hour of the day. (Hint: To check this, you need to use an accurate sample for your line chart!)
+- explore whether there’s a connection between age and spending power (income). To visualize this relationship, create a scatterplot using the sns.scatterplot()
+
+## 4.10
+- Coding Best Practices
+    - Maintaining Clean and Concise Scripts
+    - Avoiding the Overwrite
+
+- Storing Useful Resources
+- Jupyter Tips and Tricks
+    - Clearing Outputs
+    - Stopping a Procedure from Executing
+    - Restarting the Kernel
+- Using Excel with Python
+    - Crosstabs in Python
+    `crosstab.to_clipboard()`
+    - Confirming with Stakeholders
+    - Python Text Editor
+- Data Security
+- Instacart Analysis Final Report
+    - Population Flows
+    - Data Citation
+- Non-Technical Skills
+    - Skepticism and Critical Thinking
+    - Precision
+    - Communication
+    - Domain Expertise
+
+
+</pre></div>
+</div>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="df-instacart-data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Instacart Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="f-loyalty-flag.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Loyalty</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-programming-for-da">4.1.: Intro to Programming for DA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-fundamentals-python-data-types">4.2: Jupyter Fundamentals &amp; Python Data Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-pandas">4.3: Intro to Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-wrangling-subsetting">4.4: Data Wrangling &amp; Subsetting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-consistency-checks">4.5: Data Consistency Checks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-exporting-data">4.6: Combining &amp; Exporting Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-new-variables-flags">4.7: Deriving New Variables (FLAGS)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 🥕 1001dimensions.com
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

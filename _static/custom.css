@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;900&display=swap');
+
+html[data-theme="light"] {
+    --pst-color-primary: #099b09;
+    --pst-color-muted: #202123;
+    --pst-color-info: #3E4EA2;
+    --pst-color-shadow: #f0f0f0;
+}
+
+html {
+    
+    --pst-font-family-heading: 300;
+    --pst-font-family-base-system: 'Archivo', -apple-system, BlinkMacSystemFont, Segoe UI,
+    "Helvetica Neue", Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol;
+
+
+  --pst-font-family-base: var(--pst-font-family-base-system);
+  --pst-font-family-heading: var(--pst-font-family-base-system);
+}
+
+
+

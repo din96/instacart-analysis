@@ -1,0 +1,1403 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Customers EDA &#8212; Instacart Data Analysis in Jupyterbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'df-customers';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Instacart Data" href="df-instacart-data.html" />
+    <link rel="prev" title="2. Orders Products Merged" href="df-orders-products-merged.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Insights</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="da-customers.html">Customers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="da-marketing-sales.html">Marketing &amp; Sales</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Database</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-dictionary.html">Data Dictionary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Wrangling</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="data-frames.html">Data Frames</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="df-products.html">Products EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-orders.html">Orders EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-departments.html">Departments EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-products-prior.html">Products Prior EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-orderds-products-combined.html">01 Orders + Products Prior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-orders-products-merged.html">2. Orders Products Merged</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Customers EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="df-instacart-data.html">Instacart Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="flags.html">Flags</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="f-loyalty-flag.html">Loyalty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-max-order.html">Max Order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-new-customer.html">New Customer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-price-ranges.html">Price ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-spending-type.html">Spending Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-user-activity-days.html">User activity by days</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-user-activity-hours.html">User activity by hours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-prices-outliers.html">‘prices’ outliers fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="f-region.html">Region</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Viz</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="data-viz.html">Data visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="links.html">Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdf-customers.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/df-customers.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Customers EDA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">01 Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-exploration">02 Data exploration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-validation">03 Data validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-id"><code class="docutils literal notranslate"><span class="pre">user_id</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-name"><code class="docutils literal notranslate"><span class="pre">first_name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#last-name"><code class="docutils literal notranslate"><span class="pre">last_name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gender"><code class="docutils literal notranslate"><span class="pre">gender</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#state"><code class="docutils literal notranslate"><span class="pre">state</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#age"><code class="docutils literal notranslate"><span class="pre">age</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#family-status"><code class="docutils literal notranslate"><span class="pre">family_status</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#n-dependants"><code class="docutils literal notranslate"><span class="pre">n_dependants</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income"><code class="docutils literal notranslate"><span class="pre">income</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#duplicates">04 Duplicates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values">05 Missing values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drop-columns">06 Drop columns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-for-export">07 Check for export</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#export">08 Export</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="customers-eda">
+<h1>Customers EDA<a class="headerlink" href="#customers-eda" title="Permalink to this heading">#</a></h1>
+<section id="setup">
+<h2>01 Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Import libriaries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sb</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path</span>
+<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/Users/peanutcookie/instacart-book/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import .csv file</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;_csv-raw&#39;</span><span class="p">,</span> <span class="s1">&#39;customers.csv&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-exploration">
+<h2>02 Data exploration<a class="headerlink" href="#data-exploration" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dataframe shape</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(206209, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Return data frame columns names and types of the data their store</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>user_id          int64
+First Name      object
+Surnam          object
+Gender          object
+STATE           object
+Age              int64
+date_joined     object
+n_dependants     int64
+fam_status      object
+income           int64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>First Name</th>
+      <th>Surnam</th>
+      <th>Gender</th>
+      <th>STATE</th>
+      <th>Age</th>
+      <th>date_joined</th>
+      <th>n_dependants</th>
+      <th>fam_status</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>26711</td>
+      <td>Deborah</td>
+      <td>Esquivel</td>
+      <td>Female</td>
+      <td>Missouri</td>
+      <td>48</td>
+      <td>1/1/2017</td>
+      <td>3</td>
+      <td>married</td>
+      <td>165665</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>33890</td>
+      <td>Patricia</td>
+      <td>Hart</td>
+      <td>Female</td>
+      <td>New Mexico</td>
+      <td>36</td>
+      <td>1/1/2017</td>
+      <td>0</td>
+      <td>single</td>
+      <td>59285</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>65803</td>
+      <td>Kenneth</td>
+      <td>Farley</td>
+      <td>Male</td>
+      <td>Idaho</td>
+      <td>35</td>
+      <td>1/1/2017</td>
+      <td>2</td>
+      <td>married</td>
+      <td>99568</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>125935</td>
+      <td>Michelle</td>
+      <td>Hicks</td>
+      <td>Female</td>
+      <td>Iowa</td>
+      <td>40</td>
+      <td>1/1/2017</td>
+      <td>0</td>
+      <td>single</td>
+      <td>42049</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>130797</td>
+      <td>Ann</td>
+      <td>Gilmore</td>
+      <td>Female</td>
+      <td>Maryland</td>
+      <td>26</td>
+      <td>1/1/2017</td>
+      <td>1</td>
+      <td>married</td>
+      <td>40374</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="data-validation">
+<h2>03 Data validation<a class="headerlink" href="#data-validation" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change column names to match with naming conventions</span>
+<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;First Name&#39;</span><span class="p">:</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Surnam&#39;</span><span class="p">:</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">:</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;STATE&#39;</span><span class="p">:</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;date_joined&#39;</span><span class="p">:</span> <span class="s1">&#39;signup_date&#39;</span><span class="p">,</span> <span class="s1">&#39;fam_status&#39;</span><span class="p">:</span> <span class="s1">&#39;family_status&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="user-id">
+<h2><code class="docutils literal notranslate"><span class="pre">user_id</span></code><a class="headerlink" href="#user-id" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change data type to match with other data frames</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>user_id          object
+first_name       object
+last_name        object
+gender           object
+state            object
+age               int64
+signup_date      object
+n_dependants      int64
+family_status    object
+income            int64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<section id="first-name">
+<h3><code class="docutils literal notranslate"><span class="pre">first_name</span></code><a class="headerlink" href="#first-name" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first_name column exploration - search for missing values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NaN        11259
+Marilyn     2213
+Barbara     2154
+Todd        2113
+Jeremy      2104
+           ...  
+Merry        197
+Eugene       197
+Garry        191
+Ned          186
+David        186
+Name: first_name, Length: 208, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">first_name</span></code> column has 11259 missing values. It will not affect the data analysis, but it’s recommended to update the UI of the application so that the first name field in the signup process is mandatory to fill out. Implications of not having this value are for example issues during the order delivery.</p>
+</section>
+<section id="last-name">
+<h3><code class="docutils literal notranslate"><span class="pre">last_name</span></code><a class="headerlink" href="#last-name" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># last_name column exploration - search for missing values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hamilton      252
+Randall       248
+Lamb          243
+Pennington    243
+Barnett       242
+             ... 
+Poole         172
+Bauer         166
+Pearson       164
+Payne         163
+Jordan        162
+Name: last_name, Length: 1000, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gender">
+<h3><code class="docutils literal notranslate"><span class="pre">gender</span></code><a class="headerlink" href="#gender" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gender column exploration - search for missing values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Male      104067
+Female    102142
+Name: gender, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="state">
+<h3><code class="docutils literal notranslate"><span class="pre">state</span></code><a class="headerlink" href="#state" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># states column exploration - check names </span>
+<span class="n">states</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">states</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0                  Missouri
+1                New Mexico
+2                     Idaho
+3                      Iowa
+4                  Maryland
+5                  Kentucky
+6                   Montana
+7            South Carolina
+8                     Texas
+9                  Virginia
+10                   Nevada
+11                 Nebraska
+12                  Georgia
+13                  Wyoming
+14                 Colorado
+15             North Dakota
+17                Wisconsin
+18                   Alaska
+19                  Vermont
+21                 Arkansas
+22                    Maine
+23           North Carolina
+26            West Virginia
+27                  Indiana
+28                   Oregon
+30                  Florida
+32               California
+33             Pennsylvania
+35                     Ohio
+36              Connecticut
+37                  Arizona
+38                Louisiana
+40               Washington
+43                 New York
+54              Mississippi
+57                 Oklahoma
+61                     Utah
+68            New Hampshire
+76                   Hawaii
+91     District of Columbia
+98                  Alabama
+104           Massachusetts
+107            Rhode Island
+108                Michigan
+123              New Jersey
+136                  Kansas
+142            South Dakota
+161               Minnesota
+178                Illinois
+210               Tennessee
+265                Delaware
+Name: state, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Return number of states</span>
+<span class="n">states</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>51
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="age">
+<h3><code class="docutils literal notranslate"><span class="pre">age</span></code><a class="headerlink" href="#age" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># age column exploration - search for missing values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>19    3329
+55    3317
+51    3317
+56    3306
+32    3305
+      ... 
+65    3145
+25    3127
+66    3114
+50    3102
+36    3101
+Name: age, Length: 64, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># age column - look for outliers</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    206209.000000
+mean         49.501646
+std          18.480962
+min          18.000000
+25%          33.000000
+50%          49.000000
+75%          66.000000
+max          81.000000
+Name: age, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="family-status">
+<h3><code class="docutils literal notranslate"><span class="pre">family_status</span></code><a class="headerlink" href="#family-status" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Return family status types</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;family_status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>married                             144906
+single                               33962
+divorced/widowed                     17640
+living with parents and siblings      9701
+Name: family_status, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Investigate colleration with the dependants column </span>
+<span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;family_status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;living with parents and siblings&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_dependants&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>gender</th>
+      <th>state</th>
+      <th>age</th>
+      <th>signup_date</th>
+      <th>n_dependants</th>
+      <th>family_status</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>91</th>
+      <td>202887</td>
+      <td>John</td>
+      <td>Harris</td>
+      <td>Male</td>
+      <td>District of Columbia</td>
+      <td>20</td>
+      <td>1/1/2017</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>84380</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>180919</td>
+      <td>Jacqueline</td>
+      <td>Roach</td>
+      <td>Female</td>
+      <td>Nebraska</td>
+      <td>21</td>
+      <td>1/1/2017</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>56831</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>48809</td>
+      <td>Raymond</td>
+      <td>Shah</td>
+      <td>Male</td>
+      <td>Alaska</td>
+      <td>19</td>
+      <td>1/2/2017</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>89395</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>79696</td>
+      <td>Joan</td>
+      <td>Beltran</td>
+      <td>Female</td>
+      <td>Massachusetts</td>
+      <td>20</td>
+      <td>1/2/2017</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>56755</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>43011</td>
+      <td>Carl</td>
+      <td>Horn</td>
+      <td>Male</td>
+      <td>Kentucky</td>
+      <td>21</td>
+      <td>1/2/2017</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>62193</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>205406</th>
+      <td>132569</td>
+      <td>James</td>
+      <td>Acosta</td>
+      <td>Male</td>
+      <td>Maine</td>
+      <td>21</td>
+      <td>3/28/2020</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>43892</td>
+    </tr>
+    <tr>
+      <th>205733</th>
+      <td>181145</td>
+      <td>Julie</td>
+      <td>Carroll</td>
+      <td>Female</td>
+      <td>Texas</td>
+      <td>18</td>
+      <td>3/30/2020</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>88614</td>
+    </tr>
+    <tr>
+      <th>205751</th>
+      <td>73992</td>
+      <td>James</td>
+      <td>Jennings</td>
+      <td>Male</td>
+      <td>South Dakota</td>
+      <td>20</td>
+      <td>3/30/2020</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>64554</td>
+    </tr>
+    <tr>
+      <th>205770</th>
+      <td>162009</td>
+      <td>Wayne</td>
+      <td>Woodward</td>
+      <td>Male</td>
+      <td>Maryland</td>
+      <td>18</td>
+      <td>3/30/2020</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>55524</td>
+    </tr>
+    <tr>
+      <th>205816</th>
+      <td>156394</td>
+      <td>Brandon</td>
+      <td>Vaughan</td>
+      <td>Male</td>
+      <td>North Carolina</td>
+      <td>18</td>
+      <td>3/30/2020</td>
+      <td>3</td>
+      <td>living with parents and siblings</td>
+      <td>75221</td>
+    </tr>
+  </tbody>
+</table>
+<p>3219 rows × 10 columns</p>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">family_status</span></code> column contain data that is innacurate. It is excluding people with no siblings and mixing divorced status with the widowed status. Also it’s corelation with number of dependands looks odd. The column will not be included in the final data frame.</p>
+</section>
+<section id="n-dependants">
+<h3><code class="docutils literal notranslate"><span class="pre">n_dependants</span></code><a class="headerlink" href="#n-dependants" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Return family status types</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_dependants&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    51602
+3    51594
+1    51531
+2    51482
+Name: n_dependants, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">n_dependants</span></code> column values are vauge. Also in correlation with <code class="docutils literal notranslate"><span class="pre">family_status</span></code> data the column inputs looks corrupted. The column will not be included for analysis.</p>
+</section>
+<section id="income">
+<h3><code class="docutils literal notranslate"><span class="pre">income</span></code><a class="headerlink" href="#income" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Search for the outliers</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    206209.000000
+mean      94632.852548
+std       42473.786988
+min       25903.000000
+25%       59874.000000
+50%       93547.000000
+75%      124244.000000
+max      593901.000000
+Name: income, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise the column </span>
+<span class="n">sb</span><span class="o">.</span><span class="n">boxplot</span> <span class="p">(</span><span class="n">x</span><span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;income&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/8007e8b2db9d6bfa268dfaa1dbbb1c9871d7c1d736a0f986276427dfea434e04.png" src="_images/8007e8b2db9d6bfa268dfaa1dbbb1c9871d7c1d736a0f986276427dfea434e04.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="duplicates">
+<h2>04 Duplicates<a class="headerlink" href="#duplicates" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Search for duplicates</span>
+<span class="n">duplicated_rows</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">duplicated_rows</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>gender</th>
+      <th>state</th>
+      <th>age</th>
+      <th>signup_date</th>
+      <th>n_dependants</th>
+      <th>family_status</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="missing-values">
+<h2>05 Missing values<a class="headerlink" href="#missing-values" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Missing values</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>user_id              0
+first_name       11259
+last_name            0
+gender               0
+state                0
+age                  0
+signup_date          0
+n_dependants         0
+family_status        0
+income               0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="drop-columns">
+<h2>06 Drop columns<a class="headerlink" href="#drop-columns" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span><span class="s1">&#39;family_status&#39;</span><span class="p">,</span> <span class="s1">&#39;n_dependants&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;user_id&#39;, &#39;gender&#39;, &#39;state&#39;, &#39;age&#39;, &#39;signup_date&#39;, &#39;income&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-for-export">
+<h2>07 Check for export<a class="headerlink" href="#check-for-export" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(206209, 6)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>user_id        object
+gender         object
+state          object
+age             int64
+signup_date    object
+income          int64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="export">
+<h2>08 Export<a class="headerlink" href="#export" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;_database&#39;</span><span class="p">,</span> <span class="s1">&#39;customers.pkl&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="df-orders-products-merged.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2. Orders Products Merged</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="df-instacart-data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Instacart Data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">01 Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-exploration">02 Data exploration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-validation">03 Data validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-id"><code class="docutils literal notranslate"><span class="pre">user_id</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-name"><code class="docutils literal notranslate"><span class="pre">first_name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#last-name"><code class="docutils literal notranslate"><span class="pre">last_name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gender"><code class="docutils literal notranslate"><span class="pre">gender</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#state"><code class="docutils literal notranslate"><span class="pre">state</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#age"><code class="docutils literal notranslate"><span class="pre">age</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#family-status"><code class="docutils literal notranslate"><span class="pre">family_status</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#n-dependants"><code class="docutils literal notranslate"><span class="pre">n_dependants</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income"><code class="docutils literal notranslate"><span class="pre">income</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#duplicates">04 Duplicates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values">05 Missing values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drop-columns">06 Drop columns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-for-export">07 Check for export</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#export">08 Export</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 🥕 1001dimensions.com
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
